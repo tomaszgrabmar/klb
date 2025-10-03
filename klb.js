@@ -1,7 +1,7 @@
 (function(){
   let sniperActive=false;
   let selectedHour="18:00-18:59";
-  let CYCLE_DELAY=10000;
+  let CYCLE_DELAY=13000;
   let panelMinimized=false;
   let countdownInterval;
 
