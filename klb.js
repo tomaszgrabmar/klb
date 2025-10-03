@@ -18,6 +18,7 @@
       updateStatus("✅ Awizacja zakończona sukcesem – zatrzymuję klikacz");
       sniperActive = false;
       document.getElementById("sniperToggleBtn").innerText = "START";
+      document.getElementById("sniperPanel").classList.remove("active");
       clearInterval(countdownInterval);
       return true;
     }
@@ -81,9 +82,74 @@
     }, 1000);
   }
 
+  function injectHalloweenStyles(){
+    if(document.getElementById("sniperHalloweenCSS")) return;
+    const css = `
+      #sniperPanel{
+        background: linear-gradient(180deg, #8FSFEA 0%, #000 100%);
+        color:#fff;
+        border:2px solid orange;
+        border-radius:12px;
+        box-shadow:0 0 15px rgba(255,120,0,0.6), inset 0 0 10px rgba(143,95,234,0.4);
+        font-family:Arial, sans-serif;
+        width:220px;
+        padding:12px;
+        z-index:9999;
+        position:fixed;
+        bottom:20px;right:20px;
+      }
+      #sniperPanel.active{
+        box-shadow:0 0 25px orange;
+      }
+      #sniperPanel b{
+        color:orange;
+        text-shadow:0 0 6px #8FSFEA;
+      }
+      #sniperPanel select,
+      #sniperPanel input{
+        width:100%;
+        margin-top:5px;
+        padding:5px;
+        border-radius:6px;
+        border:1px solid orange;
+        color:#111;
+      }
+      #sniperPanel button{
+        margin-top:6px;
+        width:100%;
+        padding:6px;
+        border:none;
+        border-radius:6px;
+        cursor:pointer;
+        font-weight:bold;
+      }
+      #sniperSetDelay{
+        background:orange;
+        color:black;
+      }
+      #sniperToggleBtn{
+        background:black;
+        color:#fff;
+        border:1px solid orange;
+      }
+      #sniperStatus{
+        margin-top:6px;
+        font-size:12px;
+        color:#8FSFEA;
+        text-shadow:0 0 4px orange;
+      }
+    `;
+    const style = document.createElement("style");
+    style.id="sniperHalloweenCSS";
+    style.innerText = css;
+    document.head.appendChild(style);
+  }
+
   function createSniperControl(){
     const old = document.getElementById("sniperPanel");
     if(old) old.remove();
+
+    injectHalloweenStyles();
 
     const hours = Array.from({length: 24}, (_, i) => {
       const h = i.toString().padStart(2, '0');
@@ -92,19 +158,6 @@
 
     const panel = document.createElement("div");
     panel.id = "sniperPanel";
-    panel.style = `
-      position:fixed;
-      bottom:20px;right:20px;
-      padding:12px;
-      background:linear-gradient(145deg,#e6f3ff,#cfd8dc);
-      color:#1a3c57;
-      border:2px solid #607d8b;
-      border-radius:10px;
-      z-index:9999;
-      font-family:Arial,sans-serif;
-      width:200px;
-      box-shadow:0 0 12px rgba(0,50,100,0.3);
-    `;
 
     const options = hours.map(h =>
       `<option value="${h}" ${h===selectedHour?"selected":""}>${h}</option>`
@@ -112,19 +165,17 @@
 
     panel.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center;">
-        <b style="color:#003366;">⚓ BHub Clicker</b>
-        <button id="sniperMinBtn" style="background:none;border:none;color:#003366;font-size:14px;cursor:pointer;">−</button>
+        <b>🎃 BHub Clicker 💀</b>
+        <button id="sniperMinBtn" style="background:none;border:none;color:orange;font-size:14px;cursor:pointer;">🕸️</button>
       </div>
       <div id="sniperContent">
         <div style="margin-top:5px;">Przedział godzin:</div>
-        <select id="sniperHour" style="width:100%;margin-top:5px;padding:4px;font-size:14px;color:#003366;border:1px solid #607d8b;border-radius:5px;background:#f0f8ff;">
-          ${options}
-        </select><br>
+        <select id="sniperHour">${options}</select>
         <div style="margin-top:8px;">Opóźnienie (s):</div>
-        <input id="sniperDelay" type="number" value="${CYCLE_DELAY/1000}" style="width:100%;margin-top:5px;padding:4px;font-size:14px;color:#003366;border:1px solid #607d8b;border-radius:5px;">
-        <button id="sniperSetDelay" style="padding:6px;margin-top:8px;width:100%;cursor:pointer;background:#1565c0;color:white;border:none;border-radius:6px;box-shadow:0 0 5px rgba(21,101,192,0.5);">⚙️ USTAW OPÓŹNIENIE</button><br>
-        <button id="sniperToggleBtn" style="padding:6px;margin-top:8px;width:100%;cursor:pointer;background:#c62828;color:white;border:none;border-radius:6px;box-shadow:0 0 5px rgba(198,40,40,0.5);">START</button>
-        <div id="sniperStatus" style="margin-top:8px;font-size:12px;color:#003366;">⚓ Status: gotowy</div>
+        <input id="sniperDelay" type="number" value="${CYCLE_DELAY/1000}">
+        <button id="sniperSetDelay">⚙️ USTAW OPÓŹNIENIE</button>
+        <button id="sniperToggleBtn">START</button>
+        <div id="sniperStatus">⚓ Status: gotowy</div>
       </div>
     `;
 
@@ -133,7 +184,7 @@
     document.getElementById("sniperMinBtn").onclick = ()=>{
       panelMinimized = !panelMinimized;
       document.getElementById("sniperContent").style.display = panelMinimized ? "none" : "block";
-      document.getElementById("sniperMinBtn").innerText = panelMinimized ? "+" : "−";
+      document.getElementById("sniperMinBtn").innerText = panelMinimized ? "+" : "🕸️";
     };
 
     document.getElementById("sniperHour").onchange = ()=>{
@@ -152,7 +203,8 @@
     document.getElementById("sniperToggleBtn").onclick = ()=>{
       sniperActive = !sniperActive;
       document.getElementById("sniperToggleBtn").innerText = sniperActive ? "STOP" : "START";
-      updateStatus("⚓ BHub Clicker: " + (sniperActive ? "AKTYWNY" : "WYŁĄCZONY"));
+      document.getElementById("sniperPanel").classList.toggle("active", sniperActive);
+      updateStatus("🎃 BHub Clicker: " + (sniperActive ? "AKTYWNY" : "WYŁĄCZONY"));
       if(sniperActive){
         runSniperCycle();
       } else {
