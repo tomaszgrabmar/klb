@@ -163,7 +163,7 @@
     document.getElementById("sniperToggleBtn").onclick=()=>{
       sniperActive=!sniperActive;
       document.getElementById("sniperToggleBtn").innerText=sniperActive?"STOP":"START";
-      updateStatus("Auto Sniper: " + (sniperActive?"AKTYWNY":"WYŁĄCZONY"));
+      updateStatus("nic: " + (sniperActive?"AKTYWNY":"WYŁĄCZONY"));
       if(sniperActive){ runSniperCycle(); } else { clearInterval(countdownInterval); }
     };
   }
