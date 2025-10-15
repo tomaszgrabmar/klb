@@ -112,7 +112,7 @@
 
     panel.innerHTML=`
       <div style="display:flex;justify-content:space-between;align-items:center;">
-        <b style="font-size:16px;">Auto Sniper</b>
+        <b style="font-size:16px;">.</b>
         <button id="sniperMinBtn" style="background:none;border:none;color:#000;font-size:16px;cursor:pointer;">−</button>
       </div>
       <div id="sniperContent">
