@@ -48,12 +48,12 @@
               updateStatus("⚠️ Brak przycisku TAK");
             }
             sniperActive && startCountdown();
-          }, 300); // <== 0.3 sekundy między OK i TAK
+          }, 400); // <== 0.3 sekundy między OK i TAK
         } else {
           updateStatus("⚠️ Brak przycisku OK – kolejna próba za "+CYCLE_DELAY/1000+"s");
           startCountdown();
         }
-      }, 300); // <== 0.3 sekundy po kliknięciu slotu
+      }, 400); // <== 0.3 sekundy po kliknięciu slotu
     } else {
       updateStatus("⛱️ Brak slotu – kolejna próba za "+CYCLE_DELAY/1000+"s");
       startCountdown();
