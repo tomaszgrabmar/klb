@@ -6,18 +6,18 @@
   let countdownInterval;
 
   function updateStatus(text){
-    const statusEl=document.getElementById("sniperStatus");
-    if(statusEl) statusEl.innerText=text;
-    console.log("[GCT]",text);
+    const statusEl = document.getElementById("sniperStatus");
+    if(statusEl) statusEl.innerText = text;
+    console.log(text);
   }
 
   function checkForSuccessPopup(){
     const popup=document.querySelector(".swal2-popup.swal2-show.swal2-modal.swal2-icon-success");
     const htmlContainer=document.getElementById("swal2-html-container");
     if(popup && htmlContainer && htmlContainer.innerText.includes("Awizacja o numerze") && htmlContainer.innerText.includes("została utworzona")){
-      updateStatus("✅ Awizacja zakończona sukcesem – zatrzymuję klikacz");
+      updateStatus("🎃 Awizacja zakończona sukcesem – zatrzymuję klikacz 👻");
       sniperActive=false;
-      document.getElementById("sniperToggleBtn").innerText="START";
+      document.getElementById("sniperToggleBtn").innerText="START 🎃";
       clearInterval(countdownInterval);
       return true;
     }
@@ -28,21 +28,21 @@
     if(!sniperActive) return;
     if(checkForSuccessPopup()) return;
 
-    updateStatus("🔍 Szukam slotu: " + selectedHour);
+    updateStatus("🕸️ Szukam slotu: " + selectedHour);
     const btn=[...document.querySelectorAll("button.slot-btn")].find(b=>b.innerText.includes(selectedHour));
     if(btn){
       btn.removeAttribute("disabled");
-      updateStatus("🖱️ Klikam slot: " + btn.innerText);
+      updateStatus("💀 Klikam slot: " + btn.innerText);
       btn.click();
       setTimeout(()=>{
         const submit=document.querySelector("#submitBtn");
         if(submit){
-          updateStatus("✅ Klikam OK");
+          updateStatus("👉 Klikam OK");
           submit.click();
           setTimeout(()=>{
             const confirm=document.querySelector(".swal2-confirm");
             if(confirm){
-              updateStatus("☑️ Klikam TAK");
+              updateStatus("🕷️ Klikam TAK");
               confirm.click();
             } else {
               updateStatus("⚠️ Brak przycisku TAK");
@@ -55,7 +55,7 @@
         }
       },1000);
     } else {
-      updateStatus("⏳ Brak slotu – kolejna próba za "+CYCLE_DELAY/1000+"s");
+      updateStatus("👻 Brak slotu – kolejna próba za "+CYCLE_DELAY/1000+"s");
       startCountdown();
     }
   }
@@ -72,7 +72,7 @@
         clearInterval(countdownInterval);
         return;
       }
-      updateStatus("⏱️ Kolejna próba za: " + timeLeft + "s");
+      updateStatus("⏳ Kolejna próba za: " + timeLeft + "s");
       if(timeLeft<=0){
         clearInterval(countdownInterval);
         runSniperCycle();
@@ -96,14 +96,15 @@
       position:fixed;
       bottom:20px;right:20px;
       padding:14px;
-      background:#fff;
-      color:#000;
-      border:2px solid #000;
-      border-radius:8px;
+      background:linear-gradient(145deg,#1c0f2e,#2b0033);
+      color:#ff7518;
+      border:2px solid #ff7518;
+      border-radius:12px;
       z-index:9999;
-      font-family:'Arial',sans-serif;
+      font-family:"Trebuchet MS",sans-serif;
       width:220px;
-      box-shadow:0 0 10px rgba(0,0,0,0.3);
+      box-shadow:0 0 20px rgba(255,117,24,0.7);
+      text-shadow:0 0 5px black;
     `;
 
     const options=hours.map(h=>
@@ -112,30 +113,30 @@
 
     panel.innerHTML=`
       <div style="display:flex;justify-content:space-between;align-items:center;">
-        <b style="font-size:16px;">.</b>
-        <button id="sniperMinBtn" style="background:none;border:none;color:#000;font-size:16px;cursor:pointer;">−</button>
+        <b style="color:#ff7518;font-size:16px;">🎃 BHub Clicker 👻</b>
+        <button id="sniperMinBtn" style="background:none;border:none;color:#ff7518;font-size:16px;cursor:pointer;">−</button>
       </div>
       <div id="sniperContent">
-        <div style="margin-top:8px;">Przedział godzin:</div>
-        <select id="sniperHour" style="width:100%;margin-top:5px;padding:5px;font-size:14px;border:1px solid #000;border-radius:4px;">
+        <div style="margin-top:8px;color:#ffb347;">Przedział godzin:</div>
+        <select id="sniperHour" style="width:100%;margin-top:5px;padding:5px;font-size:14px;color:#2b0033;background:#ffb347;border:2px solid #ff7518;border-radius:6px;">
           ${options}
         </select><br>
 
-        <div style="margin-top:10px;">Opóźnienie (s):</div>
+        <div style="margin-top:10px;color:#ffb347;">Opóźnienie (s):</div>
         <input id="sniperDelay" type="number" value="${CYCLE_DELAY/1000}"
-          style="width:100%;margin-top:5px;padding:5px;font-size:14px;border:1px solid #000;border-radius:4px;">
+          style="width:100%;margin-top:5px;padding:5px;font-size:14px;color:#2b0033;background:#ffb347;border:2px solid #ff7518;border-radius:6px;">
 
         <button id="sniperSetDelay"
-          style="padding:6px;margin-top:10px;width:100%;cursor:pointer;background:#000;color:#fff;font-weight:bold;border:none;border-radius:4px;">
-          USTAW OPÓŹNIENIE
+          style="padding:6px;margin-top:10px;width:100%;cursor:pointer;background:#ff7518;color:black;font-weight:bold;border:none;border-radius:6px;box-shadow:0 0 10px #ff7518;">
+          🕷️ USTAW OPÓŹNIENIE
         </button><br>
 
         <button id="sniperToggleBtn"
-          style="padding:6px;margin-top:10px;width:100%;cursor:pointer;background:#333;color:#fff;font-weight:bold;border:none;border-radius:4px;">
-          START
+          style="padding:6px;margin-top:10px;width:100%;cursor:pointer;background:#6a0dad;color:#ffb347;font-weight:bold;border:none;border-radius:6px;box-shadow:0 0 10px #6a0dad;">
+          START 🎃
         </button>
 
-        <div id="sniperStatus" style="margin-top:10px;font-size:12px;color:#333;">Status: gotowy</div>
+        <div id="sniperStatus" style="margin-top:10px;font-size:12px;color:#ffb347;">👻 Status: gotowy</div>
       </div>
     `;
 
@@ -149,21 +150,21 @@
 
     document.getElementById("sniperHour").onchange=()=>{
       selectedHour=document.getElementById("sniperHour").value;
-      updateStatus("Zmieniono godzinę na: " + selectedHour);
+      updateStatus("🕸️ Zmieniono godzinę na: " + selectedHour);
     };
 
     document.getElementById("sniperSetDelay").onclick=()=>{
       const val=parseInt(document.getElementById("sniperDelay").value);
       if(!isNaN(val)&&val>0){
         CYCLE_DELAY=val*1000;
-        updateStatus("Zmieniono opóźnienie na: " + val + "s");
+        updateStatus("⏱️ Zmieniono opóźnienie na: " + val + "s");
       }
     };
 
     document.getElementById("sniperToggleBtn").onclick=()=>{
       sniperActive=!sniperActive;
-      document.getElementById("sniperToggleBtn").innerText=sniperActive?"STOP":"START";
-      updateStatus("nic: " + (sniperActive?"AKTYWNY":"WYŁĄCZONY"));
+      document.getElementById("sniperToggleBtn").innerText=sniperActive?"STOP 💀":"START 🎃";
+      updateStatus("🎃 BHub Clicker: " + (sniperActive?"AKTYWNY":"WYŁĄCZONY"));
       if(sniperActive){ runSniperCycle(); } else { clearInterval(countdownInterval); }
     };
   }
